@@ -40,7 +40,8 @@
   --r-pill: 999px;
 
   --wrap: 1180px;
-  --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Akshar", "Inter", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
@@ -62,7 +63,7 @@ img { max-width: 100%; display: block; }
 
 .wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 22px; }
 
-h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.08; font-weight: 800; }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); letter-spacing: -.01em; line-height: 1.06; font-weight: 700; }
 p { margin: 0; }
 a { color: inherit; text-decoration: none; }
 
@@ -126,55 +127,24 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(48px, 8vw, 92px) 0 clamp(56px, 8vw, 100px);
 }
 
-/* Fondo animado del hero: orbes de color a la deriva (efecto "video" en vivo, on-brand) */
-.hero__fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+/* Fondo de VIDEO del hero (referencia: template Nexus). Velo claro encima para
+   que el texto oscuro se lea sobre el video sin bajar el nivel. */
+.hero__fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--bg-soft); }
+.hero__video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
 .hero__fx::after {
-  /* velo blanco para mantener el fondo claro y el texto legible */
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.72));
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.24) 32%, rgba(255,255,255,.08) 55%, rgba(255,255,255,.1) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.3) 100%);
 }
-.orb {
-  position: absolute; border-radius: 50%; filter: blur(70px); opacity: .5;
-  will-change: transform;
-}
-.orb--blue {
-  width: 46vw; height: 46vw; max-width: 620px; max-height: 620px;
-  top: -14%; right: -6%;
-  background: radial-gradient(circle at 30% 30%, #4f7bec, var(--blue) 55%, transparent 72%);
-  animation: drift1 26s ease-in-out infinite alternate;
-}
-.orb--yellow {
-  width: 40vw; height: 40vw; max-width: 520px; max-height: 520px;
-  bottom: -18%; left: -8%;
-  background: radial-gradient(circle at 40% 40%, #ffe27a, var(--yellow) 58%, transparent 74%);
-  opacity: .42;
-  animation: drift2 32s ease-in-out infinite alternate;
-}
-.orb--sky {
-  width: 32vw; height: 32vw; max-width: 440px; max-height: 440px;
-  top: 34%; left: 42%;
-  background: radial-gradient(circle at 50% 50%, #9fc0ff, #cfe0ff 55%, transparent 72%);
-  opacity: .5;
-  animation: drift3 22s ease-in-out infinite alternate;
-}
-.hero__grain {
-  position: absolute; inset: 0; opacity: .32; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@keyframes drift1 {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-8%, 10%) scale(1.12); }
-}
-@keyframes drift2 {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(12%, -8%) scale(1.15); }
-}
-@keyframes drift3 {
-  0%   { transform: translate(-6%, 0) scale(1); }
-  100% { transform: translate(8%, -10%) scale(.9); }
+@media (max-width: 900px) {
+  .hero__fx::after { background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.72)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .orb { animation: none !important; }
+  .hero__video { display: none; }
 }
 
 .hero__grid {
