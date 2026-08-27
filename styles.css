@@ -136,9 +136,23 @@ a { color: inherit; text-decoration: none; }
     radial-gradient(760px 460px at 2% 108%, #fff4cf, transparent 58%),
     var(--bg);
 }
+/* Video real: solo en pantallas anchas (computador). En celular queda oculto y
+   se ve el fondo animado de orbes (donde el video de bordes no funciona). */
+.hero__video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: none;
+}
+@media (min-width: 768px) {
+  .hero__video { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none !important; }
+}
 .hero__fx::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,.6));
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.24) 32%, rgba(255,255,255,.08) 55%, rgba(255,255,255,.12) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.4) 100%);
 }
 .orb { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform; }
 .orb--blue {

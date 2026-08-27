@@ -41,9 +41,14 @@
     <!-- ===================== HERO ===================== -->
     <section class="hero">
       <div class="hero__fx" aria-hidden="true">
+        <!-- Fondo animado (celular y fallback). En el computador queda tapado por el video. -->
         <span class="orb orb--blue"></span>
         <span class="orb orb--yellow"></span>
         <span class="orb orb--sky"></span>
+        <!-- Video real: solo en pantallas anchas (computador), donde se ve bien. -->
+        <video class="hero__video" autoplay muted loop playsinline preload="auto">
+          <source src="assets/hero-video.mp4" type="video/mp4" />
+        </video>
       </div>
       <div class="wrap hero__grid">
         <div class="hero__copy reveal">
