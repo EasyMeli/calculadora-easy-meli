@@ -127,25 +127,39 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(48px, 8vw, 92px) 0 clamp(56px, 8vw, 100px);
 }
 
-/* Fondo de VIDEO del hero (referencia: template Nexus). Velo claro encima para
-   que el texto oscuro se lea sobre el video sin bajar el nivel. */
-.hero__fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--bg-soft); }
-.hero__video {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
+/* Fondo animado del hero: orbes de color a la deriva. On-brand y 100% responsive:
+   se ve igual de bien en computador y celular, sin recortes ni cuadros vacíos. */
+.hero__fx {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  background:
+    radial-gradient(1100px 520px at 82% -12%, var(--bg-wash), transparent 60%),
+    radial-gradient(760px 460px at 2% 108%, #fff4cf, transparent 58%),
+    var(--bg);
 }
 .hero__fx::after {
   content: ""; position: absolute; inset: 0;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.24) 32%, rgba(255,255,255,.08) 55%, rgba(255,255,255,.1) 100%),
-    linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.3) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,.6));
 }
-@media (max-width: 900px) {
-  .hero__fx::after { background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.72)); }
+.orb { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform; }
+.orb--blue {
+  width: 44vw; height: 44vw; max-width: 600px; max-height: 600px; top: -12%; right: -4%; opacity: .5;
+  background: radial-gradient(circle at 32% 32%, #4f7bec, var(--blue) 55%, transparent 72%);
+  animation: drift1 26s ease-in-out infinite alternate;
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero__video { display: none; }
+.orb--yellow {
+  width: 40vw; height: 40vw; max-width: 520px; max-height: 520px; bottom: -16%; left: -6%; opacity: .4;
+  background: radial-gradient(circle at 40% 40%, #ffe27a, var(--yellow) 58%, transparent 74%);
+  animation: drift2 32s ease-in-out infinite alternate;
 }
+.orb--sky {
+  width: 30vw; height: 30vw; max-width: 420px; max-height: 420px; top: 30%; left: 44%; opacity: .5;
+  background: radial-gradient(circle at 50% 50%, #9fc0ff, #cfe0ff 55%, transparent 72%);
+  animation: drift3 22s ease-in-out infinite alternate;
+}
+@keyframes drift1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-8%,10%) scale(1.12); } }
+@keyframes drift2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(12%,-8%) scale(1.15); } }
+@keyframes drift3 { 0% { transform: translate(-6%,0) scale(1); } 100% { transform: translate(8%,-10%) scale(.9); } }
+@media (prefers-reduced-motion: reduce) { .orb { animation: none !important; } }
 
 .hero__grid {
   position: relative; z-index: 1;
