@@ -74,7 +74,7 @@
     if (modo === "inversa") {
       label.textContent = "Precio para publicar";
       big.textContent = C.clp(r.precio);
-      meta.textContent = `Con este precio ganás ${C.pct(r.margenReal)} sobre tu costo total.`;
+      meta.textContent = `Con este precio ganas ${C.pct(r.margenReal)} sobre tu costo total.`;
       html += fila("Costo del producto", C.clp(r.costo));
       html += fila(`Envío (${r.peso.toLocaleString("es-CL", { maximumFractionDigits: 2 })} kg)`, C.clp(r.envio));
       html += fila("Empaque", C.clp(r.empaque));
@@ -104,10 +104,10 @@
       al += `<div class="alert alert--info">Desde $19.990 el envío gratis es obligatorio. Ya está incluido en el cálculo con el descuento de tu reputación.</div>`;
     }
     if (r.bajoMinimo) {
-      al += `<div class="alert alert--warn">Este precio está bajo el mínimo de $1.100 que exige MercadoLibre. Agrupá unidades en un kit o subí el margen.</div>`;
+      al += `<div class="alert alert--warn">Este precio está bajo el mínimo de $1.100 que exige MercadoLibre. Agrupa unidades en un kit o sube el margen.</div>`;
     }
     if (modo === "directa" && r.utilidadNeta < 0) {
-      al += `<div class="alert alert--warn">A ese precio estás perdiendo plata: el costo total supera lo que cobrás.</div>`;
+      al += `<div class="alert alert--warn">A ese precio estás perdiendo plata: el costo total supera lo que cobras.</div>`;
     }
     alerts.innerHTML = al;
 
