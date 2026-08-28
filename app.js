@@ -60,21 +60,36 @@
     const brk = $("#result-break");
     const alerts = $("#result-alerts");
 
+    const finalEl = $("#result-final");
+    const finalLabel = $("#result-final-label");
+    const promoNote = $("#result-promo-note");
+    const desc = num("in-descuento") / 100;
+    const descTxt = num("in-descuento").toLocaleString("es-CL", { maximumFractionDigits: 1 }) + "%";
+    const inflar = (p) => (desc < 1 ? p / (1 - desc) : Infinity);
+
     if (r.error) {
       label.textContent = modo === "inversa" ? "Precio para publicar" : "Tu ganancia";
       big.textContent = "—";
       meta.textContent = "";
       brk.innerHTML = "";
       alerts.innerHTML = `<div class="alert alert--warn">${r.error}</div>`;
-      actualizarPromo(0);
+      finalEl.textContent = "—";
+      promoNote.textContent = "";
       return;
     }
 
     let html = "";
     if (modo === "inversa") {
+      // El precio que se PUBLICA es el inflado; con el descuento baja al precio final que deja el margen.
+      const inflado = inflar(r.precio);
       label.textContent = "Precio para publicar";
-      big.textContent = C.clp(r.precio);
-      meta.textContent = `Con este precio ganas ${C.pct(r.margenReal)} sobre tu costo total.`;
+      big.textContent = C.clp(inflado);
+      finalLabel.textContent = `Precio final que cobras tras el ${descTxt} de descuento`;
+      finalEl.textContent = C.clp(r.precio);
+      promoNote.textContent = desc > 0
+        ? `Publicas a ${C.clp(inflado)} con la promo activada. Con el ${descTxt} de descuento, el cliente paga ${C.clp(r.precio)}, que es el precio que te deja el margen.`
+        : `Sin descuento activo, publicas directo a ${C.clp(r.precio)}.`;
+      meta.textContent = `Con ese precio final ganas ${C.pct(r.margenReal)} sobre tu costo total.`;
       html += fila("Costo del producto", C.clp(r.costo));
       html += fila(`Envío (${r.peso.toLocaleString("es-CL", { maximumFractionDigits: 2 })} kg)`, C.clp(r.envio));
       html += fila("Empaque", C.clp(r.empaque));
@@ -83,10 +98,17 @@
       html += fila("Costo total", C.clp(r.costoTotal), "rrow--strong");
       html += fila("Te queda limpio (después de IVA)", C.clp(r.utilidadNeta), "rrow--strong rrow--net");
     } else {
+      // En directa el usuario ingresa el precio FINAL; le decimos a qué precio publicar.
+      const inflado = inflar(r.precio);
       label.textContent = "Te queda limpio";
       big.textContent = C.clp(r.utilidadNeta);
-      meta.textContent = `Margen ${C.pct(r.margenReal)} sobre tu costo, vendiendo a ${C.clp(r.precio)}.`;
-      html += fila("Precio de venta", C.clp(r.precio));
+      finalLabel.textContent = `Precio para publicar (con el ${descTxt} de descuento)`;
+      finalEl.textContent = C.clp(inflado);
+      promoNote.textContent = desc > 0
+        ? `Publica a ${C.clp(inflado)} y, con el ${descTxt} de descuento, el cliente paga los ${C.clp(r.precio)} que pusiste.`
+        : `Sin descuento activo, publicas directo a ${C.clp(r.precio)}.`;
+      meta.textContent = `Margen ${C.pct(r.margenReal)} sobre tu costo, cobrando ${C.clp(r.precio)} (precio final).`;
+      html += fila("Precio final (lo que paga el cliente)", C.clp(r.precio));
       html += fila("Costo del producto", C.clp(r.costo));
       html += fila(`Envío (${r.peso.toLocaleString("es-CL", { maximumFractionDigits: 2 })} kg)`, C.clp(r.envio));
       html += fila("Empaque", C.clp(r.empaque));
@@ -97,29 +119,19 @@
     }
     brk.innerHTML = html;
 
-    // alertas
+    // alertas (se basan en el precio FINAL, sobre el que ML cobra comisión y define el envío)
     let al = "";
     al += `<div class="alert alert--info">Tramo de envío: precio de ${tramoTxt[r.tramo]}.</div>`;
     if (r.envioGratisObligatorio) {
       al += `<div class="alert alert--info">Desde $19.990 el envío gratis es obligatorio. Ya está incluido en el cálculo con el descuento de tu reputación.</div>`;
     }
     if (r.bajoMinimo) {
-      al += `<div class="alert alert--warn">Este precio está bajo el mínimo de $1.100 que exige MercadoLibre. Agrupa unidades en un kit o sube el margen.</div>`;
+      al += `<div class="alert alert--warn">El precio final está bajo el mínimo de $1.100 que exige MercadoLibre. Agrupa unidades en un kit o sube el margen.</div>`;
     }
     if (modo === "directa" && r.utilidadNeta < 0) {
       al += `<div class="alert alert--warn">A ese precio estás perdiendo plata: el costo total supera lo que cobras.</div>`;
     }
     alerts.innerHTML = al;
-
-    // promo se basa en el precio final (inversa) o el precio ingresado (directa)
-    actualizarPromo(r.precio);
-  }
-
-  function actualizarPromo(precioBase) {
-    const desc = num("in-descuento") / 100;
-    const lista = C.precioLista(precioBase, desc);
-    $("#promo-lista").textContent = C.clp(lista);
-    $("#promo-final").textContent = C.clp(precioBase);
   }
 
   /* ---------- modo ---------- */

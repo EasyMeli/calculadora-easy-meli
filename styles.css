@@ -425,7 +425,24 @@ input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rg
   letter-spacing: -.02em; margin: 4px 0 2px; line-height: 1;
   color: #fff; word-break: break-word;
 }
-.result__meta { color: #bcd0ff; font-size: .9rem; min-height: 1.2em; }
+.result__meta { color: #bcd0ff; font-size: .9rem; min-height: 1.2em; margin-top: 6px; }
+
+/* Bloque de descuento de promoción + precio final que se cobra */
+.result__promo {
+  margin-top: 16px; padding: 14px 16px; border-radius: var(--r-md);
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .16);
+}
+.result__promo-ctrl { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.result__promo-ctrl label { font-weight: 700; font-size: .9rem; color: #fff; }
+.result__promo .ipt--tiny input { background: rgba(255, 255, 255, .18); border-color: rgba(255, 255, 255, .34); color: #fff; }
+.result__promo .ipt--tiny .ipt__post { color: #cdd8f4; }
+.result__final {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(255, 255, 255, .24);
+}
+.result__final span { color: #eaf0ff; font-size: .92rem; font-weight: 600; }
+.result__final b { font-family: var(--mono); font-weight: 700; font-size: 1.5rem; color: var(--yellow-bright); }
+.result__promo-note { margin-top: 10px; color: #bcd0ff; font-size: .82rem; line-height: 1.45; }
 .result__break {
   margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .18);
   display: grid; gap: 10px;

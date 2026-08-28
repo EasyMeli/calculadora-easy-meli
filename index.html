@@ -104,7 +104,7 @@
         <div class="strip__item reveal">
           <span class="strip__num">03</span>
           <h3>IVA que se cancela</h3>
-          <p>Comprás con factura y todo es afecto a IVA, así que la utilidad se calcula sobre el monto real.</p>
+          <p>Compras con factura y todo es afecto a IVA, así que la utilidad se calcula sobre el monto real.</p>
         </div>
         <div class="strip__item reveal">
           <span class="strip__num">04</span>
@@ -125,7 +125,7 @@
         <div class="bento">
           <article class="bento__cell bento__cell--wide bento--blue reveal">
             <h3>El envío es lo que rompe los cálculos</h3>
-            <p>MercadoLibre no cobra un fijo: cobra según el peso, y si tu producto es voluminoso usa el <b>peso volumétrico</b> (largo por ancho por alto, dividido 4000). Si mide mucho aunque pese poco, pagás por el tamaño. La calculadora lo detecta sola.</p>
+            <p>MercadoLibre no cobra un fijo: cobra según el peso, y si tu producto es voluminoso usa el <b>peso volumétrico</b> (largo por ancho por alto, dividido 4000). Si mide mucho aunque pese poco, pagas por el tamaño. La calculadora lo detecta sola.</p>
             <div class="bento__demo">
               <span>51 × 34 × 5 cm</span>
               <span class="bento__arrow">vuelve</span>
@@ -247,29 +247,25 @@
             <div class="result" id="result">
               <div class="result__label" id="result-label">Precio para publicar</div>
               <div class="result__big" id="result-big">$0</div>
+
+              <!-- Descuento de promoción + precio final que se cobra -->
+              <div class="result__promo">
+                <div class="result__promo-ctrl">
+                  <label for="in-descuento">Descuento de promoción que vas a aplicar</label>
+                  <div class="ipt ipt--pct ipt--tiny"><input type="number" id="in-descuento" min="0" max="90" step="5" value="20" inputmode="numeric" /><span class="ipt__post">%</span></div>
+                </div>
+                <div class="result__final">
+                  <span id="result-final-label">Precio final que cobras tras el descuento</span>
+                  <b id="result-final">$0</b>
+                </div>
+                <p class="result__promo-note" id="result-promo-note"></p>
+              </div>
+
               <div class="result__meta" id="result-meta"></div>
 
               <div class="result__break" id="result-break"><!-- filas de desglose por JS --></div>
 
               <div class="result__alerts" id="result-alerts"></div>
-
-              <!-- Promo -->
-              <div class="promo">
-                <div class="promo__head">
-                  <div>
-                    <b>¿Querés mostrar un descuento?</b>
-                    <span>Inflamos el precio de lista para que, tras el descuento, igual ganes tu margen.</span>
-                  </div>
-                </div>
-                <div class="promo__row">
-                  <label for="in-descuento">Descuento a mostrar</label>
-                  <div class="ipt ipt--pct ipt--tiny"><input type="number" id="in-descuento" min="0" max="90" step="5" value="20" inputmode="numeric" /><span class="ipt__post">%</span></div>
-                </div>
-                <div class="promo__out">
-                  <div><span>Precio de lista (tachado)</span><b id="promo-lista">$0</b></div>
-                  <div><span>Precio final que cobras</span><b id="promo-final">$0</b></div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
